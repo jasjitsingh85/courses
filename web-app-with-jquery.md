@@ -353,12 +353,9 @@ Why then do we need to do `$(event.currentTarget).text()` and not just `event.cu
 
 # A Final (but very important) Note
 
-The first, most important part of being a programmer, is thinking like one. There are two important steps to that. 
-The first step is understanding the problem at hand. In order to solve a problem, you need to break it down. You will see in the next lessons that a webpage is built with pieces of code. All these pieces work together to solve a problem. When you first encounter a project, it's important to break it down into smaller problems. In doing this, you will be able to use the second important skill of a programmer: research.
+A programmer is good at researching. Why? Because the tech world is ever changing, and you have to be able to keep up with it, including finding solutions to oddities that arise from those changes. Instead of memorizing everything, you will learn to research those things. You will find as you continue that you will have points that you encounter a large problem. If you break it down into small steps, you will be able to overcome each small hurdle with the knowledge you have.
 
-A programmer is good at researching. Why? Because the tech world is ever changing, and you have to be able to keep up with it, including finding solutions to oddities that arise from those changes. Instead of memorizing everything, you will learn to research those things. If you follow step one, and break everything down into a small problem, then you can research that small problem. You will find as you continue along with this course, that you will have points that you encounter a large problem. If you break it down into small steps, you will be able to overcome each small hurdle with the knowledge you have.
-
-If you have a question or can't solve a problem once you've broken it down, you're likely not the first person to have that question. When you get stuck, start Googling (or DuckDuckGo-ing, though that's a lot harder to say). Far from 'cheating,' any experienced programmer will tell you they do this regularly. There are a few tricks that will help you optimize your Google searches. [This infographic](https://d3rgj9au57pk8c.cloudfront.net/uploaded/attachments/11080.gif?v=21fa9b) has some great tips, and your mentor is sure to have more. Before asking your mentor or Slack, try searching on your own for about 30 minutes. 
+If you have a question or can't solve a problem once you've broken it down, you're likely not the first person to have that question. When you get stuck, start Googling (or DuckDuckGo-ing, though that's a lot harder to say). Far from 'cheating,' any experienced programmer will tell you they do this regularly. There are a few tricks that will help you optimize your Google searches. [This infographic](https://d3rgj9au57pk8c.cloudfront.net/uploaded/attachments/11080.gif?v=21fa9b) has some great tips.
 
 Make sure you use these tactics in particular:
 - If you get an error message, copy and paste the exact message into Google. Try it with quotes for an exact match, and if that doesn't yield results, try it without quotes. 
@@ -367,8 +364,8 @@ Make sure you use these tactics in particular:
 
 Most searches will take you to an answer on [Stack Overflow](http://stackoverflow.com/), a powerful community for learners, and a place you'll soon know well. If you'd like to ask questions on Stack Overflow, [use their guide](http://stackoverflow.com/help/how-to-ask) to make sure you phrase your questions well. You may have heard that Stack Overflow has a reputation of being harsh on new members. The biggest reason for that is asking a duplicate question, and not asking a "good" question. You can avoid this harsh reaction by making sure that your question is indeed a new one, and following the guidelines for a good question.
 
-# Building the Virtual Pet Project
+# Building the Shopping List app with jQuery
 
-You'll be building your projects in Glitch. Glitch allows you to write code in your browser and instantly see (and keep) the live version of your site. [Here's the link](https://glitch.com/edit/#!/spotless-chemistry?path=README.md:1:0) to start building your virtual pet projects. 
+You'll be building your projects in Glitch. Glitch allows you to write code in your browser and instantly see (and keep) the live version of your site. [Here's the link](http://bit.ly/tf-shopping-list) to start building your shopping list project. 
 
 When you run into issues, make sure to raise your hand and ask your junior mentor for assistance.
