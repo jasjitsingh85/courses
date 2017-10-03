@@ -95,7 +95,131 @@ Nodes existing at the same level of the hierarchy (for instance, the `<nav>`, `<
 Finally, notice how we use a level one heading (`<h1>`) in the `<header>` and then a level two heading (`<h2>`) in the `<main>`. [Heading elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements) (`h1`, `h2`, `h3`, `h4`, `h5`, `h6`) are used to establish information hierarchy. Although these elements are often styled so that `h1`s are bigger than `h2`s are bigger than `h3`s etc., their main role is to indicate the relative importance of different content in the page. There should only ever be one `h1` for the page, and it's used to indicate what the page is about. It's fine to have more than one `h2` to `h6`, but don't skip headings or pick headings just for their sizes, which can be changed with CSS. For instance, don't have an `h1`, then two `h2`s, and jump to four `h5`s.
 
 
-## CSS Review
+# CSS Review
+CSS (Cascading Style Sheets) is the language used to control the *presentation layer*. Whereas HTML is about structure and content (aka, the "content layer"), CSS is about style and appearance. We use it to control the visual aspects of the content on a page: from fonts to color to size to animations and more.
+
+The key vocabulary words for CSS are: *ruleset*, *selector*, *declaration block*, *declarations*, *property*, and *value*.
+
+```css
+input {
+  display: block;
+  font-family: 'Proxima Nova W01', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  height: 45px;
+  width: 420px;
+  min-width: 210px;
+  max-width: 100%;
+  padding: 6px 1em 5px;
+  border: 1px solid #d0d2d5;
+  border-radius: 3px;
+  font-size: 15px;
+  line-height: 30px;
+  color: #404853;
+  box-shadow: inset 0 3px 7px #f6f7f7;
+}
+```
+
+This snippet is from a page on Thinkful's website. It is a *ruleset* that describes how input elements should look. It consists of a *selector* (`input`, in this case), which is the element or elements that will be targeted by the declarations that follow.
+
+The *declaration block* follows the selector. A declaration block is a set of *declarations* contained in curly brackets (`{`, `}`). Within the block, each line is a separate declaration.
+
+A *declaration* consists of a *property* and the value it is to be set to (for instance, `box-shadow: inset 0 3px 7px #f6f7f7;`, above). 
+
+Each property has a range of valid values (for instance, width could be set in terms of pixels or percentage, among other options, but setting width to "foo" would not be valid).
+
+```css
+/*invalid*/
+.foo {
+  width: 'foo';
+}
+
+/* valid */
+.foo {
+  width: 100px;
+}
+
+.bar {
+  width: 50%;
+}
+```
+
+The property name is followed by a colon, and the value is followed by a semicolon.
+
+In the first line of the snippet above (`/*invalid*/`), notice that we've used a code comment. As with HTML, you can use comments in CSS to document your code or temporarily disable (*comment out*) a block of code.
+
+With real web pages, the final presentation of a given element will usually be the result of several rulesets interacting. We'll learn more about this in a moment when we discuss *CSS specificity*, but for the moment, know that this:
+
+```css
+p {
+ font-family: Arial;
+}
+
+p {
+  font-size: 20px;
+}
+```
+
+is valid (though not the most concise) CSS. In practice though, the computed CSS that gets applied to an element by the browser is often the result of a set of rulesets, possibly spanning more than one stylesheet.
+
+
+### CSS Selectors
+
+CSS provides a rich set of selectors that give you precise control over the elements targeted by a declaration block. Later in this lesson, you'll complete drills on CSS selectors to build up your working knowledge of the most commonly used selectors.
+
+The following examples will give you a sense of some of the ways you can target elements for style rules:
+
+```css
+/* universal selector (applies to everything) */
+* {
+  /* set stuff */
+}
+
+/* targeting a single element type */
+p {
+  /* set stuff */
+}
+
+/* targeting two different elements */
+p, input {
+  /* set stuff */
+}
+
+/* targeting a class */
+.foo {
+  /* set stuff */
+}
+
+/* targeting an id */
+/* avoid these, but know how to recognize
+  them in the wild. It's usually better to
+  use a class selector instead.
+*/
+#bar {
+  /* set stuff */
+}
+
+/* targeting an element with a class */
+/* try to avoid this, in favor of simple class declaration */
+p.foo {
+  /* set stuff */
+}
+
+/* targeting descendants */
+ul.foo li {
+  /* any `li` within `ul.foo` will get targeted */
+}
+
+/* targeting direct children */
+ul > li  {
+  /*  only `li`s that are direct children of ul targeted */
+}
+
+/* targeting submit buttons */
+button[type="submit"] {
+  /* any button with a type of "submit" */
+}
+```
 
 ## Programming in JavaScript
 
