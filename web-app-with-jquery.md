@@ -2,13 +2,100 @@
 
 ## Introduction
 
-Today we’re going to get an introduction to JavaScript by building a [simple virtual pet application](https://cumbersome-vole.glitch.me/). 
+Today we’re going to get an introduction to JavaScript by building a [simple shopping list application](https://unique-heart.glitch.me/). 
 
 [Thinkful](https://www.thinkful.com/) is hosting this event. Thinkful is a bootcamp that helps people become developers and data scientists through 1-on-1 mentorship and project-based learning.
 
 Today you’ll be working with junior Thinkful mentors to learn the key concepts and build the project. The lessons you see below are taken and abridged from Thinkful's full-stack developer program. As you read this, make sure to ask for help from your TA's when you're confused about a concept. If you're still stuck on a concept, just skip to the next section and come back to it once you start working on your project. 
 
 Lets get started!
+
+# HTML Review
+
+Of all the computer languages we'll look at in this course, HTML (hypertext markup language) is the simplest. That's because it's not a full fledged *programming language*. You can't write logical statements using HTML like you can with a programming language like Javascript (where, for instance, you can have code that behaves one way if some condition is true, and another if that condition is false). Instead, HTML is used to *mark up* content so web browsers know what kinds of content they're dealing with.
+
+For the most part, that's all there is to HTML: you take content and wrap it in the appropriate tags.
+
+### Elements vs. tags vs. attributes
+
+There are three key HTML-related terms you need to be able to use correctly in order to come across as competent in interviews: *element*, *tag*, and *attribute*. Let's distinguish these with an example:
+
+```html
+<div class="foo-class">
+  <p>This is a paragraph with <a href="https://somewhere.com">a link</a> in it.</p>
+  <p id="second-paragraph">This is the second paragraph</p>
+</div>
+```
+
+This snippet has four elements: 1 div, 2 paragraphs, and one anchor. If we look at the `<div>` element, it consists of an *opening tag* (`<div>`) some inner content (the two paragraphs), and a *closing tag* (`</div>`).
+
+To generalize, an HTML element *usually* consists of some content (could be plain text or additional HTML elements) wrapped by *opening* and *closing* tags.
+
+*Tags*, then, are used to mark off the beginning and end of an element. Both opening and closing tags consist of angle brackets and the tag name (`< ... >`), with closing tags  distinguished by a forward slash (`</ ...>`).
+
+Note that the reason we said that HTML elements *usually* consist of content wrapped by an opening and closing tag is because some elements are *self closing* and don't have inner content. For example, the `<img>` element, which is used to embed images in an HTML document, has no inner content, and doesn't require a closing tag. So this image element is well-formed: `<p>This paragraph has an image: <img src="./images/foo.jpg"></p>`.
+
+Finally, *attributes* are for setting properties on an HTML element. In the example above, there are three attributes: `class="foo-class"`, `href="https://www.somewhere.com"`, and `id="second-paragraph"`. HTML attributes consist of a name (e.g., `href`) and a value enclosed in quotes (e.g., "https://www.somewhere.com").
+
+Some attributes, like *class* and *id* are valid on almost any HTML element. We'll learn more about using classes and ids as hooks for CSS styles and JavaScript code later in this course. We present them now because they are core HTML attributes that can be used on all but a handful of elements (specifically, they can’t be used on: `<base>`, `<head>`, `<meta>`, `<param>`, or `<title>`).
+
+Other attributes are specific to a particular element. The `href` attribute on our anchor element above is specific to anchor elements.
+
+
+### Structuring content with HTML
+
+In the programming world, it's commonly said that HTML is about *structuring* content while CSS, which we'll cover in depth in the next lesson, is about *styling* content. HTML tells the browser *what* content to represent, while CSS tells the browser *how* that content should appear.
+
+When we say that HTML is about *structuring* content, we mean two things. First, we mean that an HTML document specifies each and every one of its elements. These can be visible elements (paragraphs and images) or ones that human users never see (for instance, `<meta>` elements appearing in the head of the document).
+
+Second, HTML specifies the *hierarchical relationship* between elements in a document. Below, we have a snippet of HTML, followed by a chart depicting the hierarchical structure of that HTML:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sally Student | About me</title>
+  <link rel="stylesheet" type="text/css" href="./main.css">
+  <script type="text/javascript" src='./main.js'></script>
+  <meta charset="utf-8">
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about_me">About me</a></li>
+      <li><a href="/blog">Blog</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <h1>About me</h1>
+  </header>
+
+  <main>
+    <h2>My work</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat.</p>
+  </main>
+</body>
+</html>
+```
+
+![html_document.png](html_document.png)
+
+Each element from the HTML snippet appears in this diagram, which reveals the *tree structure* of our HTML code. This tree consists of a series of *nodes* (each represented by a box) which lie in hierarchical relation to one another. We call the `<html>` element the *root element* because it is the parent (or grandparent, or great grandparent, etc.) of all other elements in the document. The root element has children (`<head>` and `<body>`).
+
+Looking at the `<li>` elements in the `<nav>`, we find our most nested elements. We have list items inside an unordered list inside a nav inside the body inside the root HTML element.
+
+Nodes existing at the same level of the hierarchy (for instance, the `<nav>`, `<header>`, and `<main>` elements above) are called siblings.
+
+Finally, notice how we use a level one heading (`<h1>`) in the `<header>` and then a level two heading (`<h2>`) in the `<main>`. [Heading elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements) (`h1`, `h2`, `h3`, `h4`, `h5`, `h6`) are used to establish information hierarchy. Although these elements are often styled so that `h1`s are bigger than `h2`s are bigger than `h3`s etc., their main role is to indicate the relative importance of different content in the page. There should only ever be one `h1` for the page, and it's used to indicate what the page is about. It's fine to have more than one `h2` to `h6`, but don't skip headings or pick headings just for their sizes, which can be changed with CSS. For instance, don't have an `h1`, then two `h2`s, and jump to four `h5`s.
+
+
+## CSS Review
 
 ## Programming in JavaScript
 
