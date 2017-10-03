@@ -326,8 +326,6 @@ $(function() {
 
 This code tells the browser to wait until the page loads, then listen for when a user clicks on any `button` element or presses a key in any `input` element. When one of those happens, you run a callback function (i.e., the blocks of behaviors we define below). When the user clicks or types a key, the browser generates some data about the click event. The object representing that data is the `event` you see in `function(event)`.
 
-[`event.which`](https://api.jquery.com/event.which/) contains information about which button was pressed in a `mousedown` event and the `key` property contains information about which key was pressed in a `keydown` event. Different types of events will contain different information. For example, it wouldn't make sense for there to be a `key` property when you had clicked a mouse button.
-
 ### `event.currentTarget`
 
 One of the most powerful properties of an `event` object is the `currentTarget`. This contains information about which DOM element the user has interacted with.
@@ -352,74 +350,6 @@ This code tells the browser to wait until the page loads, then listen for the us
 We'll circle back to `event.stopPropagation()` in a moment. First let's see how `event.currentTarget` works. In the line `$("h2").text(...`, we're telling the browser to find an h2 element and set its text content to be "event.currentTarget's text is:" plus whatever `$(event.currentTarget).text()` computes to. From observing the behavior of the repl.it, you already have a sense of what's going on here: `event.currentTarget` refers to the element being clicked, and we retrieve the text of the currently clicked element.
 
 Why then do we need to do `$(event.currentTarget).text()` and not just `event.currentTarget.text()`? What's the jQuery dollar sign doing? Recall that jQuery is a JavaScript library that makes it much easier to make our pages interactive. `.text()` is a method from the jQuery library. In order to use the methods from jQuery, you first need to select something to act upon, using the selector (`$(event.currentTarget)`). The browser will find that element, and then pass it to the method you want to use. In JavaScript, `event.currentTarget` refers to the element, as discussed above, but jQuery selectors actually have different methods and data than a non-jQuery selected element. Because of that, we need to turn `event.currentTarget` into a jQuery object, so the library code can add the extra methods (including `.text()`).
-
-### Event delegation
-
-According to [the official jQuery docs](https://learn.jquery.com/events/event-delegation/), *event delegation*
-
-> allows us to attach a single event listener, to a parent element, that will fire for all descendants matching a selector, whether those descendants exist now or are added in the future.
-
-This statement is dense but crucial to understand if you're going to be proficient with jQuery. We'll unpack it in a moment, but first let's go over two examples that will make the idea of event delegation clear.
-
-<iframe frameborder="0" height='500px' width="100%" src='https://repl.it/GiPG/7'></iframe>
-
-Take a moment to play with this repl.it. First click the box that says "tiger", and you'll see that it's removed. Next click on the "Make a pet!" button, and you'll see a blue box with a new pet appear below the existing ones. Finally, click on the box of the new pet you just created and... wait nothing happened! Why is that?
-
-Looking at the JavaScript code for this repl.it, we have:
-
-```javascript
-$(function() {
-
-  $('button').click(function(event) {
-    $('ul').append(
-      '<li>' +
-      ['cat', 'dog', 'rock'][Math.floor(Math.random()*3)] + '</li>'
-    );
-  });
-
-  $('li').click(function(event) {
-    this.remove();
-  });
-});
-```
-
-This code says: when the page has loaded, be on the lookout for any clicks on the button (`$('button').click()`) or an `<li>` element (`$('li').click()`). If the user clicks the button, we append to the bottom of the unordered list. Specifically, we append a new `<li>` element with a random choice of text from the options "cat", "dog", and "rock". Don't worry about understanding the details of the `['cat', 'dog', 'rock'][Math.floor(Math.random()*3)]` line. You'll better understand how this works later in the course. For now, just know that it randomly chooses one of the strings between the brackets.
-
-When we tested the repl.it above, that functionality worked fine, so the problem must not be there.
-
-Moving on to the listener for the `<li>` click events, we have:
-
-```javascript
- $('li').click(function(event) {
-    this.remove();
-  });
-```
-
-We just learned about `this`, so we know that when the code runs, `this` will refer to the `<li>` that was just clicked. When we clicked on one of the pre-existing pets on the page, they were removed as expected, but when we click on one of the pets that were added after the page loaded, it's not removed, even though this code clearly says it should be.
-
-This behavior is a side effect of how the browser processes JavaScript files. When the page loads, the browser reads through any linked JS files in the order they were linked, each one top to bottom. When it encounters listeners like `$("li").click()` above, it finds all the current DOM elements targeted by the jQuery selector and listens for clicks on those specific elements. We say that the browser *binds* listeners to these elements, and this binding process happens once and only once: when the JavaScript code is first processed by the browser. Because of this, event listeners are effectively deaf to events related to any elements created after initial binding.
-
-This means that if we want to detect when new pets get clicked in our repl.it example, we'll need a different approach: *event delegation*. Recall how event propagation works. When you click on the li, the event information will bubble up the DOM. Instead of watching for clicks on all `<li>` elements (regardless of when they were created), we'll watch for clicks on a *parent element* that we know existed at the time the page loaded. Since the event from the `<li>` will propagate to the parent, we can catch and handle it there. The repl.it below demonstrates the solution:
-
-<iframe frameborder="0" height='500px' width="100%" src='https://repl.it/GiPV/3'></iframe>
-
-Try making a new pet, then clicking on it, and you'll see that our app works as expected: the new pet is removed.
-
-Looking at our JavaScript for this repl.it, we have:
-
-```javascript
-$('ul').on('click', 'li', function(event) {
-  this.remove();
-});
-```
-
-This code uses the [`.on()` method from jQuery](http://api.jquery.com/on/). Up until now, you’ve seen `.click()`, and `.hover()` which are shortcuts for `.on(‘click…` and `.on(‘hover’`. The code above says that when the `<ul>` element is clicked (i.e., *on* any *click* of a `<ul>`), if that click is specifically on an `<li>` element within the `<ul>`, then run the callback function to remove the clicked element. Because the `<ul>` was there at the time our JavaScript code first ran, the browser is able to bind the event listener that will respond to all click events that happen inside that `<ul>`. By using `.on('click', 'li', function(){})`, we filter all click events within the `<ul>` so that the function runs only if the clicked item was an `<li>`.
-
-In other words (specifically, the words of the jQuery docs):
-
-> Event delegation allows us to attach a single event listener, to a parent element, that will fire for all descendants matching a selector, whether those descendants exist now or are added in the future.
-
-The moral of the story moving forward is this: if you need to use jQuery to watch for events on dynamically generated elements (that is, elements that get added to the page *after* the JavaScript has been loaded), don't use `.click()`. Instead use `.on()` and target the specific event you're watching for (in this case "click"). You can then, optionally, filter the targeted events for that parent element by a more specific selector (in this case "li").
 
 # A Final (but very important) Note
 
